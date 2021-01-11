@@ -14,7 +14,7 @@ This is a net asset value calculator
 ## How to 
 - Run the Application
 
-	  1. Download the application in Directory from Git Hub.
+    1. Download the application in Directory from Git Hub.
     2. Run the following command from project root (Using your Terminal or Command Prompt)
     
         ```mvn clean compile spring-boot:run```
