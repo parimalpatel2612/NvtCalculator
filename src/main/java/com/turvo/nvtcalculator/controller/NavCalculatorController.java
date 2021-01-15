@@ -30,13 +30,11 @@ public class NavCalculatorController {
 	
 	public Map<String, List<Holding>> getHolding() {
 		Map<String, List<Holding>> holdingsByDate = parsingService.parseHolding(JSON_HOLDING_URL);
-		System.out.println(holdingsByDate);
 		return holdingsByDate;
 	}
 	
 	public Map<String, Map<String, HoldingPrice>> getHoldingPrice() {
 		Map<String, Map<String, HoldingPrice>> priceBySecurityAndDate = parsingService.parseHoldingPrice(JSON_PRICE_URL);
-		System.out.println(priceBySecurityAndDate);
 		return priceBySecurityAndDate;
 	}
 	

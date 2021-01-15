@@ -32,9 +32,12 @@ public class JsonParsingService implements ParsingService{
 	 */
 	@Override
 	public Map<String, List<Holding>> parseHolding(String url){
-		ResponseEntity<Holding[]> response =
-				restTemplate.getForEntity(url, Holding[].class);
-		Map<String, List<Holding>> result = Arrays.asList(response.getBody()).stream().collect(Collectors.groupingBy(Holding::getDate));
+		ResponseEntity<List<Holding>> response =
+		        restTemplate.exchange(url,
+		                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Holding>>() {});
+		//convert code to list
+		Map<String, List<Holding>> result = response.getBody().parallelStream().
+				collect(Collectors.groupingBy(Holding::getDate));
 		return result;
 	}
 	
@@ -46,9 +49,9 @@ public class JsonParsingService implements ParsingService{
 	public Map<String, Map<String, HoldingPrice>> parseHoldingPrice(String url) {
 		ResponseEntity<List<HoldingPrice>> rateResponse =
 		        restTemplate.exchange(url,
-		                    HttpMethod.GET, null, new ParameterizedTypeReference<List<HoldingPrice>>() {
-		            });
-		Map<String, Map<String, HoldingPrice>> result = rateResponse.getBody().stream().collect(Collectors.groupingBy(HoldingPrice::getDate,
+		                    HttpMethod.GET, null, new ParameterizedTypeReference<List<HoldingPrice>>() {});
+		
+		Map<String, Map<String, HoldingPrice>> result = rateResponse.getBody().parallelStream().collect(Collectors.groupingBy(HoldingPrice::getDate,
 				Collectors.toMap(HoldingPrice::getSecurity , price -> price)));
 
 		return result;
